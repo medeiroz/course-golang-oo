@@ -1,6 +1,7 @@
 package main
 
 import (
+	"banco/clientes"
 	"banco/contas"
 	"fmt"
 )
@@ -8,13 +9,21 @@ import (
 func main() {
 
 	contaFlavio := contas.ContaCorrente{
-		Titular: "Flavio",
-		Saldo:   75.45,
+		Titular: clientes.Titular{
+			Nome:      "Flavio",
+			CPF:       "123.123.123-12",
+			Profissao: "Desenvolvedor",
+		},
+		Saldo: 75.45,
 	}
 
 	contaBia := contas.ContaCorrente{
-		Titular: "Bia",
-		Saldo:   456,
+		Titular: clientes.Titular{
+			Nome:      "Bia",
+			CPF:       "111.222.333-44",
+			Profissao: "QA",
+		},
+		Saldo: 456,
 	}
 
 	fmt.Println("contaFlavio", contaFlavio)

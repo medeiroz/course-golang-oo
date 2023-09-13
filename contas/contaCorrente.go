@@ -1,9 +1,12 @@
 package contas
 
-import "strconv"
+import (
+	"banco/clientes"
+	"strconv"
+)
 
 type ContaCorrente struct {
-	Titular string
+	Titular clientes.Titular
 	Saldo   float64
 }
 
