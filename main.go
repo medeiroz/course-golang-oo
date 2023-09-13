@@ -6,48 +6,59 @@ import (
 )
 
 type ContaCorrente struct {
-	titular       string
-	numeroAgencia int
-	numeroConta   int
-	saldo         float64
+	titular string
+	saldo   float64
 }
 
 func (conta *ContaCorrente) Sacar(valor float64) string {
-	podeSacar := valor <= conta.saldo
-
-	if podeSacar {
-		conta.saldo -= valor
-		return "Saque realizado com sucesso. Novo saldo: " + strconv.FormatFloat(conta.saldo, 'f', 0, 64)
+	if valor > conta.saldo {
+		return "Falha ao realizar saque. Saldo insulficiente"
 	}
 
-	return "Saldo insulficiente"
+	conta.saldo -= valor
+	return "Saque realizado com sucesso. Novo saldo: " + strconv.FormatFloat(conta.saldo, 'f', 2, 64)
 }
 
 func (conta *ContaCorrente) Depositar(valor float64) string {
-	podeDepositar := valor > 0
-
-	if podeDepositar {
-		conta.saldo += valor
+	if valor < 0 {
+		return "Falha ao depositar. Não é permitido depositar valores negativos"
 	}
 
-	return "Deposito realizado com sucesso. Novo saldo: " + strconv.FormatFloat(conta.saldo, 'f', 0, 64)
+	conta.saldo += valor
+	return "Deposito realizado com sucesso. Novo saldo: " + strconv.FormatFloat(conta.saldo, 'f', 2, 64)
+}
+
+func (conta *ContaCorrente) Transferir(contaDestino *ContaCorrente, valor float64) string {
+	if valor < 0 {
+		return "Não é permitido transferir valores negativos"
+	}
+
+	if valor > conta.saldo {
+		return "Falha ao realizar saque. Saldo insulficiente"
+	}
+
+	conta.saldo -= valor
+	contaDestino.Depositar(valor)
+
+	return "Transferencia realizada com sucesso. Novo saldo: " + strconv.FormatFloat(conta.saldo, 'f', 2, 64)
 }
 
 func main() {
 
 	contaFlavio := ContaCorrente{
-		titular:       "Flavio",
-		numeroAgencia: 54,
-		numeroConta:   123456,
-		saldo:         75.45,
+		titular: "Flavio",
+		saldo:   75.45,
 	}
 
-	fmt.Println("Saldo antes do saque", contaFlavio.saldo)
+	contaBia := ContaCorrente{
+		titular: "Bia",
+		saldo:   456,
+	}
 
-	fmt.Println("Saque R$ 50,00", contaFlavio.Sacar(50.0))
-	fmt.Println("Saque R$ 20,00", contaFlavio.Sacar(20.0))
-	fmt.Println("Saque R$ 4,00", contaFlavio.Sacar(4.0))
-	fmt.Println("Saque R$ 2,00", contaFlavio.Sacar(2.0))
-	fmt.Println("Depositar R$ 50,00", contaFlavio.Depositar(50.0))
-	fmt.Println("Saque R$ 10,00", contaFlavio.Sacar(10.0))
+	fmt.Println("contaFlavio", contaFlavio)
+	fmt.Println("contaBia", contaBia)
+
+	fmt.Println(contaFlavio.Transferir(&contaBia, 50.0))
+	fmt.Println(contaFlavio.Transferir(&contaBia, 50.0))
+	fmt.Println(contaFlavio.Transferir(&contaBia, -50.0))
 }
