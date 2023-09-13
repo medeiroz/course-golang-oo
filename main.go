@@ -14,7 +14,6 @@ func main() {
 			CPF:       "123.123.123-12",
 			Profissao: "Desenvolvedor",
 		},
-		Saldo: 75.45,
 	}
 
 	contaBia := contas.ContaCorrente{
@@ -23,11 +22,13 @@ func main() {
 			CPF:       "111.222.333-44",
 			Profissao: "QA",
 		},
-		Saldo: 456,
 	}
 
-	fmt.Println("contaFlavio", contaFlavio)
-	fmt.Println("contaBia", contaBia)
+	contaFlavio.Depositar(100)
+	contaBia.Depositar(654)
+
+	fmt.Println("contaFlavio", contaFlavio, contaFlavio.ObterSaldo())
+	fmt.Println("contaBia", contaBia, contaBia.ObterSaldo())
 
 	fmt.Println(contaFlavio.Transferir(&contaBia, 50.0))
 	fmt.Println(contaFlavio.Transferir(&contaBia, 50.0))
