@@ -24,11 +24,21 @@ func main() {
 		},
 	}
 
+	contaPoupancaJoao := contas.ContaPoupanca{
+		Titular: clientes.Titular{
+			Nome:      "Joao",
+			CPF:       "999.999.999-99",
+			Profissao: "PO",
+		},
+	}
+
 	contaFlavio.Depositar(100)
 	contaBia.Depositar(654)
+	contaPoupancaJoao.Depositar(40)
 
 	fmt.Println("contaFlavio", contaFlavio, contaFlavio.ObterSaldo())
 	fmt.Println("contaBia", contaBia, contaBia.ObterSaldo())
+	fmt.Println("contaPoupancaJoao", contaPoupancaJoao, contaPoupancaJoao.ObterSaldo())
 
 	fmt.Println(contaFlavio.Transferir(&contaBia, 50.0))
 	fmt.Println(contaFlavio.Transferir(&contaBia, 50.0))
