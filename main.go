@@ -6,6 +6,14 @@ import (
 	"fmt"
 )
 
+func PagarBoleto(conta VerificarConta, valor float64) {
+	conta.Sacar(valor)
+}
+
+type VerificarConta interface {
+	Sacar(valor float64) string
+}
+
 func main() {
 
 	contaFlavio := contas.ContaCorrente{
@@ -40,7 +48,10 @@ func main() {
 	fmt.Println("contaBia", contaBia, contaBia.ObterSaldo())
 	fmt.Println("contaPoupancaJoao", contaPoupancaJoao, contaPoupancaJoao.ObterSaldo())
 
-	fmt.Println(contaFlavio.Transferir(&contaBia, 50.0))
-	fmt.Println(contaFlavio.Transferir(&contaBia, 50.0))
-	fmt.Println(contaFlavio.Transferir(&contaBia, -50.0))
+	fmt.Println(contaFlavio.Transferir(&contaBia, 50))
+	fmt.Println(contaFlavio.Transferir(&contaBia, 50))
+	fmt.Println(contaFlavio.Transferir(&contaBia, -50))
+
+	PagarBoleto(&contaBia, 400)
+	PagarBoleto(&contaPoupancaJoao, 25)
 }
